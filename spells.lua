@@ -3102,8 +3102,50 @@ end,
   buff:apply()
 end,
 
---200226
---200227
+-- One Afternoon
+-- All followers on your Field get DEF -3. The first Vita Follower
+-- on your Field with the highest SIZE gets DEF increased by 1
+-- plus half the total DEF reduction (rounding up).
+[200226] = function(player)
+  local big_vita
+  local def_reduction = 0
+  local buff = GlobalBuff()
+  -- FIXME does this work???
+  for i=1, player:field_size() do
+    -- all your followers on field get DEF -3
+    buff.field[player][i] = {def={"-",3}} 
+    def_reduction = def_reduction + 3
+    -- find first vita follower with largest size
+    local vita = pred.V(player.field[i])
+    local larger = not big_vita or
+        player.field[big_vita].size < player.field[i].size
+    if vita and larger then
+      big_vita = i
+    end
+  end
+  buff:apply()
+  -- increase big vita def
+  local def_inc = 1 + ceil(def_reduction / 2)
+  OneBuff(player, big_vita, {def={"+",def_inc}}):apply() 
+end,
+
+-- TODO: Beginning of a Lady
+-- Any of the first Academy Follower on your Field's ATK/DEF/STA
+-- that are lower than their original values are changed to their
+-- original values.
+[200227] = function(player)
+  local a_follower
+  for _,idx in ipairs() do
+    if pred.A(player.field[idx]) then 
+      a_follower = idx
+      break
+    end
+  end
+  if a_follower then
+    local buff = GlobalBuff()
+  end
+end,
+
 --200228
 --200229
 --200230
