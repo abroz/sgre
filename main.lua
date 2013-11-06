@@ -20,6 +20,7 @@ local N_FRAMES = 0
 local min = math.min
 
 function love.load(arg)
+  require("libs.loveframes")
   local min_k = 99
   for k,v in pairs(arg) do
     if k < min_k then
@@ -91,6 +92,8 @@ function love.update()
   end
   do_input()
   do_messages()
+  -- LoveFrames req
+  loveframes.update(dt)
 end
 
 function love.draw()
@@ -99,4 +102,23 @@ function love.draw()
     gfx_q[i][1](unpack(gfx_q[i][2]))
   end
   --love.graphics.print("FPS: "..love.timer.getFPS(),315,15)
+  -- LoveFrames req
+  loveframes.draw()
+end
+
+-- The following callbacks and functions are required by LoveFrames
+function love.mousepressed(x, y, button)
+  loveframes.mousepressed(x, y, button)
+end
+ 
+function love.mousereleased(x, y, button)
+  loveframes.mousereleased(x, y, button)
+end
+ 
+function love.keypressed(key, unicode)
+  loveframes.keypressed(key, unicode)
+end
+ 
+function love.keyreleased(key)
+  loveframes.keyreleased(key)
 end

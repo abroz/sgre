@@ -3116,10 +3116,10 @@ end,
     buff.field[player][i] = {def={"-",3}} 
     def_reduction = def_reduction + 3
     -- find first vita follower with largest size
-    local vita = pred.V(player.field[i])
-    local larger = not big_vita or
+    local is_vita = pred.V(player.field[i])
+    local is_larger = not big_vita or
         player.field[big_vita].size < player.field[i].size
-    if vita and larger then
+    if is_vita and is_larger then
       big_vita = i
     end
   end
@@ -3134,10 +3134,11 @@ end,
 -- that are lower than their original values are changed to their
 -- original values.
 [200227] = function(player)
-  local a_follower
-  for _,idx in ipairs() do
+  local followers = player:field_idxs_with_preds(pred.follower)
+  local a_followers = {}
+  for _,idx in ipairs(followers) do
     if pred.A(player.field[idx]) then 
-      a_follower = idx
+      a_followers = idx
       break
     end
   end
